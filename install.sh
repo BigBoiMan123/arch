@@ -1,6 +1,8 @@
 #!/bin/bash
 echo 'Partitioning Disk...'
 parted --script /dev/vda \
+rm 1 \
+rm 2 \
 mklabel gpt \
 mkpart efi 1MiB 512MiB \
 mkpart primary 513MiB 9000MiB
