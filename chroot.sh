@@ -1,5 +1,7 @@
 #!/bin/bash
-echo "root" | passwd --stdin root
+touch passwd.txt
+sed -i '1i root:root' passwd.txt
+chpasswd <passwd.txt
 touch /etc/hostname
 sed -i '1i archspeedrun' /etc/hostname
 ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/timezone
