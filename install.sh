@@ -1,23 +1,25 @@
 #!/bin/bash
+echo 'Partitioning Disk...'
 parted --script /dev/vda \
 mklabel gpt \
 mkpart efi 1MiB 512MiB \
 mkpart primary 513MiB 9000MiB
+echo 'Formatting Disk...'
 mkfs.fat32 /dev/vda1
 mkfs.ext4 /dev/vda2
+echo 'Mounting Disk...'
 mount /dev/vda2 /mnt
 mkdir /mnt/boot
 mount /dev/vda1 /mnt/boot
+echo 'Preparing Scripts...'
+cp -r /root/archspeedrun /mnt/archspeedrun
+echo 'Installing Base System...'
 pacstrap -K /mnt base linux
+echo 'Generating Filesystem Table...'
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-echo "2997" | passwd --stdin root
-locale-gen
-sed '1i en_US.UTF-8 UTF-8' /etc/locale.gen
-sed '1i LANG=en_US.UTF-8' /etc/locale.conf
-pacman -S grub efibootmgr
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
-grub-mkconfig -o /boot/grub/grub.cfg
-exit
+echo 'Chrooting into the new system...'
+{
+cat /mnt/archspeedrun/chroot.sh
+} | arch-chroot /mnt
 reboot
 
