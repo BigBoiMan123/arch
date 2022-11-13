@@ -5,7 +5,7 @@ mklabel gpt \
 mkpart efi 1MiB 512MiB \
 mkpart primary 513MiB 9000MiB
 echo 'Formatting Disk...'
-mkfs.fat32 /dev/vda1
+mkfs.vfat -F 32 /dev/vda1
 mkfs.ext4 /dev/vda2
 echo 'Mounting Disk...'
 mount /dev/vda2 /mnt
