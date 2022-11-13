@@ -21,5 +21,4 @@ echo 'Chrooting into the new system...'
 {
 cat /mnt/archspeedrun/chroot.sh
 } | arch-chroot /mnt
-reboot
-
+exit
